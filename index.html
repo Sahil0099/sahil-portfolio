@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sahil Rawat — Web Developer & Digital Marketer</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#93a3b8;--accent:#06b6d4;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    html,body{height:100%;background:var(--bg)}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#071024 0%,#071b2b 100%);color:#e6eef6;line-height:1.5;-webkit-font-smoothing:antialiased}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;gap:20px;align-items:center}
+    .brand{flex:1}
+    .brand h1{margin:0;font-size:28px;letter-spacing:0.2px}
+    .brand p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    nav{display:flex;gap:12px}
+    a.btn{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#ffffff !important;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block;text-align:center;font-size:16px;}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:18px;align-items:center}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:24px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6);position:relative;overflow:hidden}
+    .headline{font-size:28px;margin:0 0 10px;background:linear-gradient(90deg,#fff,#cfefff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .headline strong{background:linear-gradient(90deg,#7c3aed,#06b6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);margin-bottom:14px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .badge{background:var(--glass);padding:8px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+    .cta-row{display:flex;gap:12px}
+
+    .profile-card{background:linear-gradient(180deg,#061028, #071428);padding:18px;border-radius:14px;text-align:center}
+    .avatar{width:120px;height:120px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:#022;margin-bottom:12px}
+    .profile-card p{color:var(--muted);margin:6px 0 0}
+
+    section{margin-top:22px}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .section-title h2{margin:0;font-size:18px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+
+    /* cards: make visible by default to avoid white blanks if JS hasn't loaded */
+    .card{background:#061226;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 20px rgba(2,6,23,0.5);opacity:1;transform:none;transition:transform .45s ease,box-shadow .35s ease}
+    .card.visible{transform:translateY(-6px)}
+    .card h3{margin:0 0 8px;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    .card a{display:inline-block;margin-top:10px;text-decoration:none;color:var(--accent);font-weight:600}
+
+    /* carousel styles: ensure dark background and min-height so layout doesn't go white */
+    .carousel-wrap{margin-top:22px}
+    .carousel{position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,8,20,0.5));padding:10px}
+    .slides{display:flex;transition:transform .5s cubic-bezier(.2,.9,.2,1);min-height:140px}
+    .slide{min-width:100%;padding:22px;background:transparent;display:flex;gap:18px;align-items:center}
+    .slide .thumb{width:140px;height:90px;border-radius:8px;background:#0d1220;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .carousel .nav{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 10px;pointer-events:none}
+    .carousel button{pointer-events:auto;background:rgba(2,6,23,0.6);border:0;color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.08);cursor:pointer}
+    .dot.active{background:linear-gradient(90deg,var(--accent),#60a5fa)}
+
+    /* responsive */
+    @media (max-width:1000px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.container{padding:16px}.grid{grid-template-columns:1fr}}
+
+    /* skills */
+    .skill{margin-bottom:12px}
+    .skill .label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
+    .bar{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden}
+    .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);border-radius:999px}
+
+    /* project grid */
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .proj{display:flex;gap:12px;align-items:center}
+    .thumb{width:84px;height:56px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    footer{margin-top:30px;padding:18px;border-radius:12px;background:rgba(255,255,255,0.02);text-align:center;color:var(--muted)}
+
+    /* subtle animation */
+    .card, .hero-card, .profile-card{transform:translateY(0);transition:transform .35s ease,box-shadow .35s ease}
+    .card:hover,.hero-card:hover,.profile-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+  @media (max-width:640px){header{flex-direction:column;align-items:flex-start;gap:12px}nav{width:100%;display:flex;justify-content:flex-start;flex-wrap:wrap}nav .btn{width:100%;margin-top:8px} .hero{grid-template-columns:1fr !important} .cta-row{flex-direction:column;gap:10px} .cta-row .btn{width:100%} .projects-grid{grid-template-columns:1fr !important} section[style*="display:grid"]{grid-template-columns:1fr !important} aside.card{margin-top:18px} .profile-card{margin-top:20px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Sahil Rawat</h1>
+        <p>Web Developer • WordPress Developer • Digital Marketer • BCA Student</p>
+      </div>
+      <nav>
+        <a class="btn" href="https://wa.me/919971630502?text=Hi%20Sahil%2C%20I%20want%20to%20hire%20you" target="_blank">Hire Me</a>
+        <a class="btn" href="#projects">Projects</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="hero-card">
+        <h2 class="headline">I build <strong>business-ready</strong> websites & run growth-focused marketing.</h2>
+        <p class="sub">Freelance Web Developer and Digital Marketer with extensive client work: e-commerce stores, business websites, SEO & ad campaigns. I deliver fast, secure, and conversion-oriented solutions.</p>
+
+        <div class="badges">
+          <span class="badge">Freelance — Client Work</span>
+          <span class="badge">E-commerce & WP</span>
+          <span class="badge">SEO & Ads</span>
+          <span class="badge">Responsive UI</span>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn" href="https://wa.me/919971630502?text=Hi%20Sahil%2C%20I%20want%20to%20hire%20you" target="_blank" >Hire Me</a>
+          <a class="btn" href="#contact" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Get CV</a>
+        </div>
+
+        <section style="margin-top:18px">
+          <div class="section-title"><h2>Top Skills</h2></div>
+          <div style="margin-top:10px">
+            <div class="skill"><div class="label"><span>WordPress Development</span><span>92%</span></div><div class="bar"><i style="width:92%"></i></div></div>
+            <div class="skill"><div class="label"><span>Web Development (HTML/CSS/JS/PHP)</span><span>88%</span></div><div class="bar"><i style="width:88%"></i></div></div>
+            <div class="skill"><div class="label"><span>Digital Marketing (SEO/Ads)</span><span>84%</span></div><div class="bar"><i style="width:84%"></i></div></div>
+            <div class="skill"><div class="label"><span>Data Analytics & Reporting</span><span>70%</span></div><div class="bar"><i style="width:70%"></i></div></div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="profile-card">
+        <div class="avatar">SR</div>
+        <h3 style="margin:8px 0">Sahil Rawat</h3>
+        <p style="margin:6px 0;color:var(--muted)">Freelance Web & WP Developer</p>
+        <p style="margin:6px 0;color:var(--muted);font-size:13px">Based in India • Open to full-time roles & freelance</p>
+      </aside>
+    </div>
+
+    <!-- carousel -->
+    <div class="carousel-wrap">
+      <div class="section-title"><h2>Featured Work</h2><div></div></div>
+      <div class="carousel" id="carousel">
+        <div class="slides">
+          <div class="slide">
+            <div class="thumb"><img src="https://tryingskins.in/wp-content/uploads/2021/09/images.png" style="width:100%;height:100%;border-radius:8px;object-fit:cover"></div>
+            <div>
+              <h3 style="margin:0">Tryingskins — E-commerce</h3>
+              <p style="color:var(--muted);margin-top:6px">WooCommerce store, product UX improvements and speed optimisation.</p>
+              <p style="margin-top:8px"><a class="btn" href="https://tryingskins.in" target="_blank">View Project</a></p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="thumb"><img src="https://worthwrap.in/cdn/shop/files/worthwrap_6.png?v=1723562244&width=360" style="width:100%;height:100%;border-radius:8px;object-fit:cover"></div>
+            <div>
+              <h3 style="margin:0">Worthwrap — E-commerce</h3>
+              <p style="color:var(--muted);margin-top:6px">Conversion-focused product pages and landing funnels.</p>
+              <p style="margin-top:8px"><a class="btn" href="https://worthwrap.in" target="_blank">View Project</a></p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="thumb"><img src="https://organickumaon.com/cdn/shop/files/logo_new.jpg?v=1757192759&width=450" style="width:100%;height:100%;border-radius:8px;object-fit:cover"></div>
+            <div>
+              <h3 style="margin:0">Organickumaon — E-commerce</h3>
+              <p style="color:var(--muted);margin-top:6px">Local brand site with intuitive catalog and checkout flow.</p>
+              <p style="margin-top:8px"><a class="btn" href="https://organickumaon.com" target="_blank">View Project</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="nav"><button id="prev">‹</button><button id="next">›</button></div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <section style="margin-top:28px" id="qualifications">
+  <div class="section-title"><h2>Qualifications</h2></div>
+  <div class="card" style="margin-top:14px">
+    <ul style="color:var(--muted);font-size:14px;line-height:1.6;margin:0;padding-left:18px">
+      <li><strong>BCA (Bachelor of Computer Applications)</strong> – Pursuing</li>
+      <li><strong>ADCE Diploma</strong> – IICS</li>
+      <li><strong>Digital Marketing Certification</strong> – SEO, SMM, Google Ads</li>
+      <li><strong>Web Development:</strong> HTML, CSS, JavaScript, PHP, WordPress, WooCommerce</li>
+      <li><strong>Backend & Frameworks:</strong> Python, Django</li>
+      <li><strong>Programming & Algorithms:</strong> DSA with C++, OOPs (C++ / Python)</li>
+      <li><strong>Databases & Systems:</strong> DBMS, Web Applications using PHP, Computer Organization & Operating Systems</li>
+      <li><strong>Software Engineering:</strong> Systems Analysis, Design & Testing</li>
+      <li><strong>Data & Analytics:</strong> Data Science, Data Analytics, Google Analytics</li>
+      <li><strong>Marketing & Ads:</strong> SEO, SEM, SMO, SMM, Meta Ads, Google Ads, Content Creation</li>
+      <li><strong>Other Skills:</strong> Site speed & security optimization, conversion tracking, campaign analytics</li>
+    </ul>
+  </div>
+</section>
+
+<section id="certificates" style="margin-top:22px">
+  <div class="section-title"><h2>Certificates & Training</h2><a class="btn" href="#contact">Share Certificates</a></div>
+  <div class="projects-grid" style="margin-top:12px">
+        <div class="card" data-cat="cert">
+          <h3>Certificate 1</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_1.PNG" alt="1.PNG" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="1.PNG" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>Certificate 2</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_2.PNG" alt="2.PNG" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="2.PNG" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>Certificate 3</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_3.PNG" alt="3.PNG" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="3.PNG" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>Certificate 4</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_4.PNG" alt="4.PNG" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="4.PNG" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>HR Management Certificate.jpeg</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_WhatsApp_Image_2025-11-29_at_10.33.59_PM.png" alt="WhatsApp Image" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="WhatsApp_Image_2025-11-29_at_10.33.59_PM.jpeg" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>Retailing & Leadership Certificate.jpeg</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_WhatsApp_Image_2025-11-29_at_10.36.06_PM.png" alt="WhatsApp Image" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="WhatsApp_Image_2025-11-29_at_10.36.06_PM.jpeg" target="_blank">View / Download</a></div></div>
+        </div>
+        <div class="card" data-cat="cert">
+          <h3>Digital Marketing Certificate.pdf</h3>
+          <p style="color:var(--muted);font-size:13px">Click to view or download</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb"><img src="thumb_Digital_Marketing_Certificate.png" alt="pdf" style="width:84px;height:56px;border-radius:8px;object-fit:cover"></div><div><a href="Digital_Marketing_Certificate.pdf" target="_blank">View / Download</a></div></div>
+        </div>
+      </div>
+</section>
+
+<section id="projects">
+      <div class="section-title"><h2>Highlighted Projects</h2><a href="#projects" class="btn">See all</a></div>
+      <div class="projects-grid" style="margin-top:12px">
+        <div class="card">
+          <h3>E-commerce: Tryingskins</h3>
+          <p>Custom WooCommerce store with product pages, payment integration and optimized speed.</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb">TS</div><div><a href="https://tryingskins.in" target="_blank">Open tryingskins.in</a></div></div>
+        </div>
+
+        <div class="card">
+          <h3>E-commerce: Worthwrap</h3>
+          <p>Marketing-focused product catalog and landing pages to boost conversions.</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb">WW</div><div><a href="https://worthwrap.in" target="_blank">Open worthwrap.in</a></div></div>
+        </div>
+
+        <div class="card">
+          <h3>E-commerce: Organickumaon</h3>
+          <p>Local brand store with clean product navigation and cart flow.</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb">OK</div><div><a href="https://organickumaon.com" target="_blank">Open organickumaon.com</a></div></div>
+        </div>
+
+        <div class="card">
+          <h3>Sub-site: Tina (Misty Floral Beauty)</h3>
+          <p>Brand subdomain for a product line; SEO optimized landing pages.</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb">TN</div><div><a href="https://tina.tryingskins.in" target="_blank">Open tina.tryingskins.in</a></div></div>
+        </div>
+
+        <div class="card">
+          <h3>Business Sites (Selected)</h3>
+          <p>Multiple business & travel websites built and optimized for local search & performance.</p>
+          <div style="margin-top:8px">
+            <ul style="padding-left:18px;margin:8px 0;color:var(--muted)">
+              <li><a href="https://rarosawatercare.in" target="_blank">rarosawatercare.in</a></li>
+              <li><a href="https://sansaarhonda.com" target="_blank">sansaarhonda.com</a></li>
+              <li><a href="https://adikailashtours.in" target="_blank">adikailashtours.in</a></li>
+              <li><a href="https://dreamtotravels.com" target="_blank">dreamtotravels.com</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Education Platforms</h3>
+          <p>Built course & learning portals for training centers.</p>
+          <div style="margin-top:8px" class="proj"><div class="thumb">ED</div><div><a href="https://iicsindia.com" target="_blank">iicsindia.com</a> • <a href="https://learn.iicsindia.com" target="_blank">learn.iicsindia.com</a></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:28px">
+      <div class="card">
+        <h3>Freelance Experience</h3>
+        <p style="color:var(--muted)">I have worked with multiple clients across e-commerce, travel, education and local businesses. Typical engagements include: full site builds, WooCommerce setup, theme customization, speed & security optimization, SEO audits, Google Ads setup, and monthly marketing retainers.</p>
+        <ul style="margin-top:12px;color:var(--muted)">
+          <li>Client onboarding & requirement analysis</li>
+          <li>End-to-end website delivery with testing</li>
+          <li>SEO improvements & GMB optimization</li>
+          <li>Campaign analytics & conversion tracking</li>
+        </ul>
+      </div>
+
+      <aside class="card">
+        <h3>Contact & Hire</h3>
+        <p style="color:var(--muted)">Ready to join a team or discuss freelance work. I prefer roles in Web Development, WordPress, or Digital Marketing.</p>
+        <p style="margin-top:12px"><strong>Email:</strong> <a href="https://wa.me/919971630502?text=Hi%20Sahil%2C%20I%20want%20to%20hire%20you" target="_blank">sahilstudent1@gmail.com</a></p>
+        <p><strong>Phone:</strong> +91-9971630502</p>
+        <p style="margin-top:12px"><a class="btn" href="https://wa.me/919971630502?text=Hi%20Sahil%2C%20I%20want%20to%20hire%20you" target="_blank">Message on WhatsApp</a></p>
+      </aside>
+    </section>
+
+    <footer>
+      <div style="max-width:900px;margin:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="text-align:left">
+            <strong>Sahil Rawat</strong><div style="color:var(--muted);font-size:13px">Freelance Web Developer • Digital Marketer</div>
+          </div>
+          <div style="text-align:right;color:var(--muted);font-size:13px">Available for full-time roles & freelance • BCA Student</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // slider logic
+    (function(){
+      const carousel = document.getElementById('carousel')
+      if(!carousel) return
+      const slidesWrap = carousel.querySelector('.slides')
+      const slides = Array.from(carousel.querySelectorAll('.slide'))
+      const prev = document.getElementById('prev')
+      const next = document.getElementById('next')
+      const dotsWrap = document.getElementById('dots')
+      let idx = 0
+      let autoplay = true
+      let timer = null
+
+      function go(i){
+        idx = (i + slides.length) % slides.length
+        slidesWrap.style.transform = `translateX(${ -idx * 100 }%)`
+        Array.from(dotsWrap.children).forEach((d,di)=> d.classList.toggle('active', di===idx))
+      }
+
+      function makeDots(){
+        slides.forEach((s, i)=>{
+          const d = document.createElement('div')
+          d.className='dot'+(i===0?' active':'')
+          d.addEventListener('click', ()=>{go(i);pause()})
+          dotsWrap.appendChild(d)
+        })
+      }
+
+      function nextSlide(){go(idx+1)}
+      function prevSlide(){go(idx-1)}
+      function play(){timer = setInterval(nextSlide, 4000)}
+      function pause(){clearInterval(timer);timer=null}
+
+      next.addEventListener('click', ()=>{nextSlide();pause()})
+      prev.addEventListener('click', ()=>{prevSlide();pause()})
+      makeDots()
+      go(0)
+      play()
+      carousel.addEventListener('mouseenter', pause)
+      carousel.addEventListener('mouseleave', ()=>{if(!timer)play()})
+    })()
+
+    // reveal on scroll
+    (function(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible') })
+      },{threshold:0.12})
+      document.querySelectorAll('.card').forEach(c=>io.observe(c))
+    })()
+
+    // smooth links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault(); const id = a.getAttribute('href'); if(id==='#!')return; const el = document.querySelector(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'})
+      })
+    })
+  </script>
+</body>
+</html>
